@@ -7,11 +7,11 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using SharpDX;
 
-namespace UnsignedYasuo
+namespace PentakillYasou
 {
     internal class Program
     {
-        public static Menu ComboMenu, DrawingsMenu, KSMenu, LaneClear, LastHit, Harass, Items, menu;
+        public static Kombo, Drawlar, KillCal, LaneTemizle, SonVurus, HarasKullanmaSacma, HayatKurtaranItemler, menu;
         public static Spell.Skillshot Q;
         public static Spell.SpellBase W;
         public static Spell.Targeted E;
@@ -41,106 +41,106 @@ namespace UnsignedYasuo
             if (Player.Instance.ChampionName != "Yasuo")
                 return;
 
-            Q = new Spell.Skillshot(SpellSlot.Q, 475, SkillShotType.Linear);
+            Q = new Spell.Skillshot(SpellSlot.Q, 550, SkillShotType.Linear);
             W = new Spell.Skillshot(SpellSlot.W, 400, SkillShotType.Linear);
             E = new Spell.Targeted(SpellSlot.E, 475);
             R = new Spell.Active(SpellSlot.R)
             {
-                Range = 1200
+                Range = 1400
             };
 
-            menu = MainMenu.AddMenu("Unsigned Yasuo", "UnsignedYasuo");
-            menu.Add("ABOUT", new Label("This Addon was designed by Chaos"));
+            menu = MainMenu.AddMenu("Pentakill Yasou", "PentakillYasou");
+            menu.Add("ABOUT", new Label("Bu Addon Tekyol65 Tarafindan derlenmistir."));
             menu.Add("BTR", new CheckBox("Extend Turret Range (safety precaution)", false));
             menu.Add("QHitChance", new Slider("Q Hit Chance: Medium", 2, 0, 3));
 
-            ComboMenu = menu.AddSubMenu("Combo", "combomenu");
+            Kombo = menu.AddSubMenu("Kombo", "Kombo");
 
-            ComboMenu.AddGroupLabel("Combo Settings");
-            ComboMenu.Add("CQ", new CheckBox("Use Q"));
-            ComboMenu.Add("CE", new CheckBox("Use E"));
-            ComboMenu.Add("CEQ", new CheckBox("Use EQ"));
-            ComboMenu.Add("CR", new CheckBox("Use R"));
-            ComboMenu.Add("CI", new CheckBox("Use Items"));
-            ComboMenu.Add("CEUT", new CheckBox("E Under Turret", false));
-            ComboMenu.AddGroupLabel("Ult Settings - First two are relative to enemies in vision");
-            ComboMenu.Add("UltLS", new CheckBox("Wait until last second?"));
-            ComboMenu.Add("UltAEIV", new CheckBox("Ult if all enemies are knocked Up"));
-            ComboMenu.Add("UltHEIV", new CheckBox("Ult if 1/2 enemies are knocked Up"));
-            ComboMenu.Add("UltLH", new CheckBox("Ult if less than 10% Health", false));
-            ComboMenu.Add("UltREnemies", new Slider("Enemies Knocked-Up", 3, 0, 5));
+            Kombo.AddGroupLabel("Kombo Settings");
+            Kombo.Add("CQ", new CheckBox("Kullan Q"));
+            Kombo.Add("CE", new CheckBox("Kullan E"));
+            Kombo.Add("CEQ", new CheckBox("Kullan EQ"));
+            Kombo.Add("CR", new CheckBox("Kullan R"));
+            Kombo.Add("CI", new CheckBox("Kullan HayatKurtaranItemler"));
+            Kombo.Add("CEUT", new CheckBox("E Kule Altinda", false));
+            Kombo.AddGroupLabel("Ulti Ayarlari - iki düsman görüsteyse");
+            Kombo.Add("UltLS", new CheckBox("Ultiyi kac Saniyede Atacan"));
+            Kombo.Add("UltAEIV", new CheckBox("2 kisi hopladiysa patlat ultiyi"));
+            Kombo.Add("UltHEIV", new CheckBox("1 kisi hopladiysa patlat ultiyi"));
+            Kombo.Add("UltLH", new CheckBox("hp %10 dan düsükse patlat ultiyi", false));
+            Kombo.Add("UltREnemies", new Slider("Kac düsmana ulti atsin(delikanli adam 5 yapar)", 3, 0, 5));
 
 
-            LaneClear = menu.AddSubMenu("Lane Clear", "laneclear");
-            LaneClear.AddGroupLabel("Lane Clear Settings");
-            LaneClear.Add("LCQ", new CheckBox("Use Q"));
-            LaneClear.Add("LC3Q", new CheckBox("Use 3Q"));
-            LaneClear.Add("LCE", new CheckBox("Use E"));
-            LaneClear.Add("LCEQ", new CheckBox("Use EQ"));
-            LaneClear.Add("LCELH", new CheckBox("Only E for Last Hit"));
-            LaneClear.Add("LCEUT", new CheckBox("E Under Turret", false));
-            LaneClear.Add("LCI", new CheckBox("Use Items (Hydra/Timat)"));
+            LaneTemizle = menu.AddSubMenu("Lane Temizle", "LaneTemizle");
+            LaneTemizle.AddGroupLabel("Lane Temizle Settings");
+            LaneTemizle.Add("LCQ", new CheckBox("Kullan Q"));
+            LaneTemizle.Add("LC3Q", new CheckBox("Kullan 3Q"));
+            LaneTemizle.Add("LCE", new CheckBox("Kullan E"));
+            LaneTemizle.Add("LCEQ", new CheckBox("Kullan EQ"));
+            LaneTemizle.Add("LCELH", new CheckBox("E yi Sadece Son Vurus icin Kullan"));
+            LaneTemizle.Add("LCEUT", new CheckBox("Kule Alti E", false));
+            LaneTemizle.Add("LCI", new CheckBox("Kullan HayatKurtaranItemler (Hydra/Timat)"));
 
-            Harass = menu.AddSubMenu("Harass", "harass");
-            Harass.AddGroupLabel("Harass Settings");
-            Harass.Add("HQ", new CheckBox("Use Q"));
-            Harass.Add("HE", new CheckBox("Use E"));
-            Harass.Add("HEQ", new CheckBox("Use EQ"));
-            Harass.Add("HEUT", new CheckBox("E Under Turret", false));
-            Harass.Add("HI", new CheckBox("Use Items (Hydra/Timat)"));
-            Harass.AddGroupLabel("Auto-Harass Settings");
-            Harass.Add("AHQ", new CheckBox("Auto-Harass with Q"));
-            Harass.Add("AH3Q", new CheckBox("Auto-Harass with 3rd Q", false));
+            HarasKullanmaSacma = menu.AddSubMenu("HarasKullanmaSacma", "HarasKullanmaSacma");
+            HarasKullanmaSacma.AddGroupLabel("HarasKullanmaSacma Settings");
+            HarasKullanmaSacma.Add("HQ", new CheckBox("Kullan Q"));
+            HarasKullanmaSacma.Add("HE", new CheckBox("Kullan E"));
+            HarasKullanmaSacma.Add("HEQ", new CheckBox("Kullan EQ"));
+            HarasKullanmaSacma.Add("HEUT", new CheckBox("E Kule Alti", false));
+            HarasKullanmaSacma.Add("HI", new CheckBox("Kullan HayatKurtaranItemler (Hydra/Timat)"));
+            HarasKullanmaSacma.AddGroupLabel("Auto-HarasKullanmaSacma Ayarlari");
+            HarasKullanmaSacma.Add("AHQ", new CheckBox("Auto-HarasKullanmaSacma Q Kullan"));
+            HarasKullanmaSacma.Add("AH3Q", new CheckBox("Auto-HarasKullanmaSacma 3. Q kullan", false));
 
-            LastHit = menu.AddSubMenu("Last Hit", "lasthitmenu");
-            LastHit.AddGroupLabel("Last Hit Settings");
-            LastHit.Add("LHQ", new CheckBox("Use Q"));
-            LastHit.Add("LHQ3", new CheckBox("Use 3Q"));
-            LastHit.Add("LHE", new CheckBox("Use E"));
-            LastHit.Add("LHEQ", new CheckBox("Use EQ"));
-            LastHit.Add("LHEUT", new CheckBox("E Under Turret", false));
+            SonVurus = menu.AddSubMenu("Son Vurus", "SonVurus menu");
+            SonVurus.AddGroupLabel("Son vurus ayarlari");
+            SonVurus.Add("LHQ", new CheckBox("Kullan Q"));
+            SonVurus.Add("LHQ3", new CheckBox("Kullan 3Q"));
+            SonVurus.Add("LHE", new CheckBox("Kullan E"));
+            SonVurus.Add("LHEQ", new CheckBox("Kullan EQ"));
+            SonVurus.Add("LHEUT", new CheckBox("E KuleAlti", false));
 
-            KSMenu = menu.AddSubMenu("Kill Steal", "ksmenu");
-            KSMenu.AddGroupLabel("Kill Steal Settings");
-            KSMenu.Add("EnableKS", new CheckBox("KS"));
-            KSMenu.Add("KSQ", new CheckBox("KS with Q"));
-            KSMenu.Add("KS3Q", new CheckBox("KS with 3rd Q"));
-            KSMenu.Add("KSE", new CheckBox("KS with E"));
-            KSMenu.Add("KSEQ", new CheckBox("KS with EQ"));
-            KSMenu.Add("KSI", new CheckBox("KS with Ignite"));
-            KSMenu.Add("KSEUT", new CheckBox("E Under Turret", false));
+            KillCal = menu.AddSubMenu("Kill Cal", "KillCal");
+            KillCal.AddGroupLabel("Kill Calma Ayarlari");
+            KillCal.Add("EnableKS", new CheckBox("KS"));
+            KillCal.Add("KSQ", new CheckBox("KS ile Q"));
+            KillCal.Add("KS3Q", new CheckBox("KS ile 3rd Q"));
+            KillCal.Add("KSE", new CheckBox("KS ile E"));
+            KillCal.Add("KSEQ", new CheckBox("KS ile EQ"));
+            KillCal.Add("KSI", new CheckBox("KS ile Ignite"));
+            KillCal.Add("KSEUT", new CheckBox("E Kule Alti", false));
 
-            DrawingsMenu = menu.AddSubMenu("Drawings", "drawingsmenu");
-            DrawingsMenu.AddGroupLabel("Drawings Settings");
-            DrawingsMenu.Add("DQ", new CheckBox("Draw Q"));
-            DrawingsMenu.Add("DW", new CheckBox("Draw W"));
-            DrawingsMenu.Add("DE", new CheckBox("Draw E"));
-            DrawingsMenu.Add("DR", new CheckBox("Draw R"));
-            DrawingsMenu.Add("DT", new CheckBox("Draw Turret Range", false));
+            Drawlar = menu.AddSubMenu("Drawlars", "Drawlar");
+            Drawlar.AddGroupLabel("Draw Ayarlari");
+            Drawlar.Add("DQ", new CheckBox("Draw Q"));
+            Drawlar.Add("DW", new CheckBox("Draw W"));
+            Drawlar.Add("DE", new CheckBox("Draw E"));
+            Drawlar.Add("DR", new CheckBox("Draw R"));
+            Drawlar.Add("DT", new CheckBox("Draw Turret Range", false));
 
-            Items = menu.AddSubMenu("Items", "itemsmenu");
-            Items.AddGroupLabel("Item Settings");
-            Items.Add("ItemsT", new CheckBox("Use Tiamat"));
-            Items.Add("ItemsRH", new CheckBox("Use Ravenous Hydra"));
-            Items.Add("ItemsTH", new CheckBox("Use Titanic Hydra"));
-            Items.Add("ItemsBC", new CheckBox("Use Bilgewater Cutlass"));
-            Items.Add("ItemsBORK", new CheckBox("Use Blade of the Ruined King"));
-            Items.Add("ItemsY", new CheckBox("Use Youmuus"));
-            Items.Add("ItemsQSS", new CheckBox("Use Quick Silversash"));
-            Items.Add("ItemsMS", new CheckBox("Use Mercurial Scimitar"));
-            Items.Add("ItemsPotions", new CheckBox("Use Potions"));
-            Items.AddGroupLabel("QSS/Merc Scimitar Settings");
-            Items.Add("QSSBlind", new CheckBox("Blind"));
-            Items.Add("QSSCharm", new CheckBox("Charm"));
-            Items.Add("QSSFear", new CheckBox("Fear"));
-            Items.Add("QSSKB", new CheckBox("Knockback"));
-            Items.Add("QSSSilence", new CheckBox("Silence"));
-            Items.Add("QSSSlow", new CheckBox("Slow"));
-            Items.Add("QSSSnare", new CheckBox("Snare"));
-            Items.Add("QSSStun", new CheckBox("Stun"));
-            Items.Add("QSSTaunt", new CheckBox("Taunt"));
-            Items.AddGroupLabel("Potion Settings");
-            Items.Add("PotSlider", new Slider("Use Potion at Health Percent", 65, 1, 100));
+            HayatKurtaranItemler = menu.AddSubMenu("HayatKurtaranItemler", "HayatKurtaranItemlermenu");
+            HayatKurtaranItemler.AddGroupLabel("Item Ayarlari");
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerT", new CheckBox("Kullan Tiamat"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerRH", new CheckBox("Kullan Ravenous Hydra"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerTH", new CheckBox("Kullan Titanic Hydra"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerBC", new CheckBox("Kullan Bilgewater Cutlass"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerBORK", new CheckBox("Kullan Blade of the Ruined King"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerY", new CheckBox("Kullan Youmuus"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerQSS", new CheckBox("Kullan Quick Silversash"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerMS", new CheckBox("Kullan Mercurial Scimitar"));
+            HayatKurtaranItemler.Add("HayatKurtaranItemlerPotions", new CheckBox("Kullan Pot"));
+            HayatKurtaranItemler.AddGroupLabel("QSS/Merc Scimitar Aylari");
+            HayatKurtaranItemler.Add("QSSBlind", new CheckBox("Blind"));
+            HayatKurtaranItemler.Add("QSSCharm", new CheckBox("Charm"));
+            HayatKurtaranItemler.Add("QSSFear", new CheckBox("Fear"));
+            HayatKurtaranItemler.Add("QSSKB", new CheckBox("Knockback"));
+            HayatKurtaranItemler.Add("QSSSilence", new CheckBox("Silence"));
+            HayatKurtaranItemler.Add("QSSSlow", new CheckBox("Slow"));
+            HayatKurtaranItemler.Add("QSSSnare", new CheckBox("Snare"));
+            HayatKurtaranItemler.Add("QSSStun", new CheckBox("Stun"));
+            HayatKurtaranItemler.Add("QSSTaunt", new CheckBox("Taunt"));
+            HayatKurtaranItemler.AddGroupLabel("Pot Ayarlari");
+            HayatKurtaranItemler.Add("PotSlider", new Slider("Kullan Potion at Health Percent", 65, 1, 100));
 
             Spellbook spell = _Player.Spellbook;
             SpellDataInst Sum1 = spell.GetSpell(SpellSlot.Summoner1);
@@ -172,16 +172,16 @@ namespace UnsignedYasuo
             if (_Player.IsDead)
                 return;
 
-            if (DrawingsMenu["DQ"].Cast<CheckBox>().CurrentValue && Q.IsLearned)
+            if (Drawlar["DQ"].Cast<CheckBox>().CurrentValue && Q.IsLearned)
                 Drawing.DrawCircle(_Player.Position, Q.Range, System.Drawing.Color.BlueViolet);
-            if (DrawingsMenu["DE"].Cast<CheckBox>().CurrentValue && E.IsLearned)
+            if (Drawlar["DE"].Cast<CheckBox>().CurrentValue && E.IsLearned)
                 Drawing.DrawCircle(_Player.Position, E.Range, System.Drawing.Color.BlueViolet);
-            if (DrawingsMenu["DW"].Cast<CheckBox>().CurrentValue && W.IsLearned)
+            if (Drawlar["DW"].Cast<CheckBox>().CurrentValue && W.IsLearned)
                 Drawing.DrawCircle(_Player.Position, W.Range, System.Drawing.Color.BlueViolet);
-            if (DrawingsMenu["DR"].Cast<CheckBox>().CurrentValue && R.IsLearned)
+            if (Drawlar["DR"].Cast<CheckBox>().CurrentValue && R.IsLearned)
                 Drawing.DrawCircle(_Player.Position, Program.R.Range, System.Drawing.Color.BlueViolet);
 
-            if (DrawingsMenu["DT"].Cast<CheckBox>().CurrentValue)
+            if (Drawlar["DT"].Cast<CheckBox>().CurrentValue)
                 foreach (Obj_AI_Turret t in EntityManager.Turrets.Enemies)
                     Drawing.DrawCircle(t.Position, TurretRange, System.Drawing.Color.BlueViolet);
         }
@@ -193,23 +193,23 @@ namespace UnsignedYasuo
 
             Q = YasuoFunctions.GetQType();
             YasuoFunctions.AutoHarrass();
-            YasuoFunctions.UseItemsAndIgnite(YasuoFunctions.Mode.PotionManager);
+            YasuoFunctions.KullanHayatKurtaranItemlerAndIgnite(YasuoFunctions.Mode.PotionManager);
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 YasuoFunctions.Combo();
-            if (KSMenu["EnableKS"].Cast<CheckBox>().CurrentValue)
+            if (KillCal["EnableKS"].Cast<CheckBox>().CurrentValue)
                 YasuoFunctions.KS();
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
-                YasuoFunctions.LastHit();
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.SonVurus))
+                YasuoFunctions.SonVurus();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.HarasKullanmaSacma))
                 YasuoFunctions.Harrass();
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneTemizle) ||
                 Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
-                YasuoFunctions.LaneClear();
+                YasuoFunctions.LaneTemizle();
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 YasuoFunctions.Flee();
             if (_Player.PentaKills > PentaKills)
             {
-                Chat.Print("Nice Penta! Make sure to screenshot it and post it on the UnsignedYasuo thread to show off!");
+                Chat.Print("ADAMIN DIBI KOYDU KAFAYA PENTAYI GG WP");
                 PentaKills = _Player.PentaKills;
             }
         }
@@ -222,7 +222,7 @@ namespace UnsignedYasuo
         static void OnBuffLose(Obj_AI_Base sender, Obj_AI_BaseBuffLoseEventArgs buff)
         {
             if (sender.IsMe && buff.Buff.Name == "yasuoq3w")
-                Q =  new Spell.Skillshot(SpellSlot.Q, 475, SkillShotType.Linear);
+                Q =  new Spell.Skillshot(SpellSlot.Q, 550, SkillShotType.Linear);
         }
 
         static void OnHitChanceSliderChange(ValueBase sender, EventArgs args)
